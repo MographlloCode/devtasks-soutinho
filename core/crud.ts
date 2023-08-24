@@ -16,7 +16,8 @@ function create(content: string) {
     done: false
   }
 
-  const todos = [
+  const todos: Array<Todo> = [
+    ...read(),
     todo
   ]
 
@@ -24,10 +25,16 @@ function create(content: string) {
   return content
 }
 
-function read() {
-  const db = fs.readFileSync(DB_FILE_PATH, "utf-8")
-  return db
+function read(): Array<Todo> {
+  const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8")
+  const db = JSON.parse(dbString || "{}")
+  if(!db.todos) {  // Fail Fast
+    return []
+  }
+  return db.todos
 }
 
 create('Teste')
+create('Teste 2')
+create('Teste 3')
 console.log(read())
