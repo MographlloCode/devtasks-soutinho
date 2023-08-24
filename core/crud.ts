@@ -60,13 +60,19 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
   console.log('TODOS ATUALIZADAS', todos)
 }
 
+function updateContentBydId(id: string, content: string): Todo {
+  return update(id, {content})
+}
+
 function CLEAR_DB() {
   fs.writeFileSync(DB_FILE_PATH, '')
 }
 
+
 CLEAR_DB()
 create('Teste')
-create('Teste 2')
+const segundaTodo = create('Teste 2')
 const terceiraTodo = create('Teste 3')
 update(terceiraTodo.id, {content: 'Atualizada', done: true})
+updateContentBydId(segundaTodo.id, 'Atualização Específica')
 // console.log(read())
