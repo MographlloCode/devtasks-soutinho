@@ -4,13 +4,16 @@ const DB_FILE_PATH = './core/db'
 
 console.log('CRUD')
 
+type UUID = string
+
 interface Todo {
-  id: string;
+  id: UUID;
   date: string;
   content: string;
   done: boolean;
 }
 
+// Create
 function create(content: string): Todo {
   const todo: Todo = {
     id: uuid(),
@@ -28,6 +31,7 @@ function create(content: string): Todo {
   return todo
 }
 
+// Read
 function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8")
   const db = JSON.parse(dbString || "{}")
@@ -37,7 +41,8 @@ function read(): Array<Todo> {
   return db.todos
 }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+// Update
+function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   const todos = read();
   todos.forEach((currentTodo) => {
@@ -60,8 +65,22 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
   console.log('TODOS ATUALIZADAS', todos)
 }
 
-function updateContentBydId(id: string, content: string): Todo {
+function updateContentBydId(id: UUID, content: string): Todo {
   return update(id, {content})
+}
+
+// Delete
+function deleteByID(id: UUID) {
+  const todos = read()
+
+  const todosWithoutOne = todos.filter((todo) => {
+    if(id === todo.id) {
+      return false
+    }
+    return true
+  })
+
+  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({todos: todosWithoutOne,}, null, 2))
 }
 
 function CLEAR_DB() {
@@ -70,9 +89,10 @@ function CLEAR_DB() {
 
 
 CLEAR_DB()
-create('Teste')
+const primeiraTodo = create('Teste')
 const segundaTodo = create('Teste 2')
 const terceiraTodo = create('Teste 3')
 update(terceiraTodo.id, {content: 'Atualizada', done: true})
 updateContentBydId(segundaTodo.id, 'Atualização Específica')
+deleteByID(primeiraTodo.id)
 // console.log(read())
