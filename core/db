@@ -1,1 +1,19 @@
-Crud2
+{
+  "todos": [
+    {
+      "date": "2023-08-24T16:50:39.965Z",
+      "content": "Teste",
+      "done": false
+    },
+    {
+      "date": "2023-08-24T16:50:39.965Z",
+      "content": "Teste 2",
+      "done": false
+    },
+    {
+      "date": "2023-08-24T16:50:39.967Z",
+      "content": "Teste 3",
+      "done": false
+    }
+  ]
+}
