@@ -34,6 +34,11 @@ function read(): Array<Todo> {
   return db.todos
 }
 
+function CLEAR_DB() {
+  fs.writeFileSync(DB_FILE_PATH, '')
+}
+
+CLEAR_DB()
 create('Teste')
 create('Teste 2')
 create('Teste 3')
